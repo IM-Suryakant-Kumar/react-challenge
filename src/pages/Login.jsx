@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../features/auth/authSlice"
 import { useNavigate } from "react-router-dom"
@@ -8,11 +8,10 @@ const Login = () => {
 		email: "",
 		password: "",
 	})
-    
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const user = useSelector(state => state.user)
 
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const user = useSelector((state) => state.user)
 
 	const inputHandler = (e) => {
 		const { name, value } = e.target
@@ -25,8 +24,12 @@ const Login = () => {
 	const submitHandler = (e) => {
 		e.preventDefault()
 		dispatch(login(formData))
-        navigate("/", { replace: true })
+		navigate("/", { replace: true })
 	}
+
+	useEffect(() => {
+		user && navigate("/")
+	}, [user, navigate])
 
 	return (
 		<div className="flex justify-center items-center flex-col h-screen font-serif">
